@@ -31,6 +31,8 @@ function preload() {
 let bird = null;
 let totalDelta = null;
 
+const VELOCITY = 200;
+
 // Initializing your app
 function create() {
   // x - 400
@@ -38,10 +40,9 @@ function create() {
   // key of the image
   this.add.image(0, 0, 'sky').setOrigin(0);
   bird = this.physics.add.sprite(config.width / 10, config.height / 2, 'bird').setOrigin(0);
-  bird.body.gravity.x = 200;
+  bird.body.velocity.x = VELOCITY;
 }
 
-const VELOCITY = 200;
 
 // t0 = 0px/s
 // t1 = 200px/s
@@ -53,11 +54,11 @@ const VELOCITY = 200;
 // 60 * 16ms = 1000ms 
 function update(time, delta) {
 
-  totalDelta += delta
-
-  if (totalDelta < 1000) { return; }
-
-  console.log(bird.body.velocity.y);
-  totalDelta = 0;
+  if (bird.x >= config.width - bird.width) {
+    bird.body.velocity.x = -VELOCITY;
+  } else if (bird.x <= 0) {
+    bird.body.velocity.x = VELOCITY;  
+  }
 }
+
 new Phaser.Game(config);
