@@ -31,9 +31,9 @@ function preload() {
 const VELOCITY = 200;
 
 let bird = null;
-let flapVelocity = 250;
-let totalDelta = null;
 
+const flapVelocity = 250;
+const initialBirdPosition = { x: config.width * 0.1, y: config.height / 2 }
 
 // Initializing your app
 function create() {
@@ -42,18 +42,27 @@ function create() {
   // key of the image
   this.add.image(0, 0, 'sky').setOrigin(0);
   // bird = this.physics.add.sprite(config.width / 10, config.height / 2, 'bird').setOrigin(0);
-  bird = this.physics.add.sprite(config.width * 0.1, config.height / 2, 'bird').setOrigin(0);
+  bird = this.physics.add.sprite(initialBirdPosition.x, initialBirdPosition.y, 'bird').setOrigin(0);
 
   this.input.on('pointerdown', flap);
   this.input.keyboard.on('keydown_SPACE', flap);
 }
 
 function update(time, delta) {
+  if (bird.y < -bird.height || bird.y > config.height) {
+    restartPlayerPosition();
+    bird.body.velocity.y = 0;
+  }
   // if (bird.x >= config.width - bird.width) {
   //   bird.body.velocity.x = -VELOCITY;
   // } else if (bird.x <= 0) {
   //   bird.body.velocity.x = VELOCITY;
   // }
+}
+
+function restartPlayerPosition() {
+  bird.x = initialBirdPosition.x
+  bird.y = initialBirdPosition.y
 }
 
 function flap() {
