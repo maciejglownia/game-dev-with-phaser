@@ -21,15 +21,15 @@ const config = {
 
 // Loading assets, such as images, music, animations ...
 const VELOCITY = 200;
+const PIPES_TO_RENDER = 4;
 
 let bird = null;
 
 let upperPipe = null;
 let lowerPipe = null;
-// debugger
+let pipeHorizontalDistance = 0;
 let pipeVerticalDistanceRange = [150, 250];
-let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalDistanceRange);
-let pipeVerticalPosition = Phaser.Math.Between(0 + 20, config.height - 20 - pipeVerticalDistance);
+
 const flapVelocity = 250;
 const initialBirdPosition = { x: config.width * 0.1, y: config.height / 2 }
 
@@ -43,17 +43,23 @@ function preload() {
 
 // Initializing your app
 function create() {
-  // x - 400
-  // y - 300
   // key of the image
   this.add.image(0, 0, 'sky').setOrigin(0);
-  // bird = this.physics.add.sprite(config.width / 10, config.height / 2, 'bird').setOrigin(0);
   bird = this.physics.add.sprite(initialBirdPosition.x, initialBirdPosition.y, 'bird').setOrigin(0);
   bird.body.gravity.y = 400;
 
-  // debugger
-  upperPipe = this.physics.add.sprite(400, pipeVerticalPosition, 'pipe').setOrigin(0, 1);
-  lowerPipe = this.physics.add.sprite(400, upperPipe.y + pipeVerticalDistance, 'pipe').setOrigin(0, 0);
+  for (let i = 0; i < PIPES_TO_RENDER; i++) {
+    pipeHorizontalDistance += 400;
+    let pipeVerticalDistance = Phaser.Math.Between(...pipeVerticalDistanceRange);
+    let pipeVerticalPosition = Phaser.Math.Between(0 + 20, config.height - 20 - pipeVerticalDistance);
+
+    upperPipe = this.physics.add.sprite(pipeHorizontalDistance, pipeVerticalPosition, 'pipe').setOrigin(0, 1);
+    lowerPipe = this.physics.add.sprite(upperPipe.x, upperPipe.y + pipeVerticalDistance, 'pipe').setOrigin(0, 0);
+
+    upperPipe.body.velocity.x = -200;
+    lowerPipe.body.velocity.x = -200;
+  }
+
 
   this.input.on('pointerdown', flap);
   this.input.keyboard.on('keydown_SPACE', flap);
