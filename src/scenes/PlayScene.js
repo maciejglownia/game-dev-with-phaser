@@ -3,6 +3,8 @@ import Phaser from 'phaser';
 
 const PIPES_TO_RENDER = 4;
 
+// console.log() -> to log
+// debbuger -> to debug
 class PlayScene extends Phaser.Scene {
 
   constructor(config) {
@@ -25,6 +27,7 @@ class PlayScene extends Phaser.Scene {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('bird', 'assets/bird.png');
     this.load.image('pipe', 'assets/pipe.png');
+    this.load.image('pause', 'assets/pause.png');
   }
 
   create() {
@@ -33,6 +36,7 @@ class PlayScene extends Phaser.Scene {
     this.createPipes();
     this.createColliders();
     this.createScore();
+    this.createPause();
     this.handleInputs();
   }
 
@@ -79,6 +83,18 @@ class PlayScene extends Phaser.Scene {
     this.add.text(16, 52, `Best score: ${bestScore || 0}`, { fontSize: '18px', fill: '#000' });
   }
 
+  createPause() {
+    const pauseButton =  this.add.image(this.config.width - 10, this.config.height - 10, 'pause')
+    .setInteractive()
+    .setScale(3)
+    .setOrigin(1);
+
+    pauseButton.on('pointerdown',() => {
+      this.physics.pause();
+      this.scene.pause();
+    })
+  }
+  
   handleInputs() {
     this.input.on('pointerdown', this.flap, this);
     this.input.keyboard.on('keydown_SPACE', this.flap, this);
@@ -111,6 +127,7 @@ class PlayScene extends Phaser.Scene {
         if (tempPipes.length === 2) {
           this.placePipe(...tempPipes);
           this.increaseScore();
+          this.saveBestScore();
         }
       }
     })
@@ -131,12 +148,7 @@ class PlayScene extends Phaser.Scene {
     this.physics.pause();
     this.bird.setTint(0xff0000);
 
-    const bestScoreText = localStorage.getItem('bestScore');
-    const bestScore = bestScoreText && parseInt(bestScoreText, 10);
-
-    if (!bestScore || this.score > bestScore) {
-      localStorage.setItem('bestScore', this.score);
-    }
+    this.saveBestScore();
 
     this.time.addEvent({
       delay: 1000,
@@ -145,6 +157,15 @@ class PlayScene extends Phaser.Scene {
       },
       loop: false
     })
+  }
+
+  saveBestScore() {
+    const bestScoreText = localStorage.getItem('bestScore');
+    const bestScore = bestScoreText && parseInt(bestScoreText, 10);
+
+    if (!bestScore || this.score > bestScore) {
+      localStorage.setItem('bestScore', this.score);
+    }
   }
 
   increaseScore() {
