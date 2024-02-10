@@ -15,7 +15,10 @@ class PlayScene extends Phaser.Scene {
     this.pipeHorizontalDistance = 0;
     this.pipeVerticalDistanceRange = [150, 250];
     this.pipeHorizontalDistanceRange = [500, 550];
-    this.flapVelocity = 250;
+    this.flapVelocity = 300;
+
+    this.score = 0;
+    this.scoreText = "";
   }
 
   preload() {
@@ -29,6 +32,7 @@ class PlayScene extends Phaser.Scene {
     this.createBird();
     this.createPipes();
     this.createColliders();
+    this.createScore();
     this.handleInputs();
   }
 
@@ -43,7 +47,7 @@ class PlayScene extends Phaser.Scene {
 
   createBird() {
     this.bird = this.physics.add.sprite(this.config.startPosition.x, this.config.startPosition.y, 'bird').setOrigin(0);
-    this.bird.body.gravity.y = 400;
+    this.bird.body.gravity.y = 600;
     this.bird.setCollideWorldBounds(true);
   }
 
@@ -52,12 +56,12 @@ class PlayScene extends Phaser.Scene {
 
     for (let i = 0; i < PIPES_TO_RENDER; i++) {
       const upperPipe = this.pipes.create(0, 0, 'pipe')
-      .setImmovable(true)
-      .setOrigin(0, 1);
+        .setImmovable(true)
+        .setOrigin(0, 1);
       const lowerPipe = this.pipes.create(0, 0, 'pipe')
-      .setImmovable(true)
-      .setOrigin(0, 0);
-      
+        .setImmovable(true)
+        .setOrigin(0, 0);
+
       this.placePipe(upperPipe, lowerPipe);
     }
 
@@ -67,6 +71,12 @@ class PlayScene extends Phaser.Scene {
   createColliders() {
     this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
   }
+
+  createScore() {
+    this.score = 0;
+    this.scoreText = this.add.text(16, 16, `Score: ${0}`, { fontSize: '32px', fill: '#000' });
+  }
+
   handleInputs() {
     this.input.on('pointerdown', this.flap, this);
     this.input.keyboard.on('keydown_SPACE', this.flap, this);
@@ -98,6 +108,7 @@ class PlayScene extends Phaser.Scene {
         tempPipes.push(pipe);
         if (tempPipes.length === 2) {
           this.placePipe(...tempPipes);
+          this.increaseScore();
         }
       }
     })
@@ -106,7 +117,7 @@ class PlayScene extends Phaser.Scene {
   getRightMostPipe() {
     let rightMostX = 0;
 
-    this.pipes.getChildren().forEach(function(pipe) {
+    this.pipes.getChildren().forEach(function (pipe) {
       rightMostX = Math.max(pipe.x, rightMostX);
     })
 
@@ -115,11 +126,21 @@ class PlayScene extends Phaser.Scene {
 
 
   gameOver() {
-    // this.bird.x = this.config.startPosition.x;
-    // this.bird.y = this.config.startPosition.y;
-    // this.bird.body.velocity.y = 0;
     this.physics.pause();
     this.bird.setTint(0xff0000);
+
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.scene.restart();
+      },
+      loop: false
+    })
+  }
+
+  increaseScore(){
+    this.score++;
+    this.scoreText.setText(`Score: ${this.score}`)
   }
 
   flap() {
