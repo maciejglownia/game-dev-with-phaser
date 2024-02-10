@@ -23,13 +23,6 @@ class PlayScene extends Phaser.Scene {
     this.scoreText = "";
   }
 
-  preload() {
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('bird', 'assets/bird.png');
-    this.load.image('pipe', 'assets/pipe.png');
-    this.load.image('pause', 'assets/pause.png');
-  }
-
   create() {
     this.createBG();
     this.createBird();
@@ -94,7 +87,7 @@ class PlayScene extends Phaser.Scene {
       this.scene.pause();
     })
   }
-  
+
   handleInputs() {
     this.input.on('pointerdown', this.flap, this);
     this.input.keyboard.on('keydown_SPACE', this.flap, this);
