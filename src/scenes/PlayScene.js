@@ -1,8 +1,8 @@
+
 import Phaser from 'phaser';
 
 const PIPES_TO_RENDER = 4;
 
-// e.g. MenuScene, PlayScene, PauseScene, etc. 
 class PlayScene extends Phaser.Scene {
 
   constructor(config) {
@@ -33,7 +33,7 @@ class PlayScene extends Phaser.Scene {
 
   update() {
     this.checkGameStatus();
-    this.recyclesPipes();
+    this.recyclePipes();
   }
 
   createBG() {
@@ -68,6 +68,7 @@ class PlayScene extends Phaser.Scene {
       this.restartBirdPosition();
     }
   }
+
   placePipe(uPipe, lPipe) {
     const rightMostX = this.getRightMostPipe();
     const pipeVerticalDistance = Phaser.Math.Between(...this.pipeVerticalDistanceRange);
@@ -78,15 +79,15 @@ class PlayScene extends Phaser.Scene {
     uPipe.y = pipeVerticalPosition;
 
     lPipe.x = uPipe.x;
-    lPipe.y = uPipe.y + pipeVerticalDistance;
+    lPipe.y = uPipe.y + pipeVerticalDistance
   }
 
   recyclePipes() {
     const tempPipes = [];
     this.pipes.getChildren().forEach(pipe => {
-      if (pipe.getBounds().right < 0) {
+      if (pipe.getBounds().right <= 0) {
         tempPipes.push(pipe);
-        if (tempPipes.length == 2) {
+        if (tempPipes.length === 2) {
           this.placePipe(...tempPipes);
         }
       }
