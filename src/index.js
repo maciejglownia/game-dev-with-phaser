@@ -35,7 +35,7 @@ const config = {
     // Arcade phisics plugin, manages phisics symulations
     default: 'arcade',
     arcade: {
-      debug: true,
+      // debug: true, // for example a frame around the bird
     }
   },
   scene: initScenes()
