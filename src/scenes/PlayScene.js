@@ -38,7 +38,7 @@ class PlayScene extends BaseScene {
   }
 
   create() {
-    // this.currentDifficulty = 'hard';
+    this.currentDifficulty = 'easy';
     super.create();
     this.createBird();
     this.createPipes();
@@ -79,7 +79,7 @@ class PlayScene extends BaseScene {
       this.timedEvent.remove();
     }
   }
-  
+
   createBG() {
     this.add.image(0, 0, 'sky').setOrigin(0);
   }
@@ -167,9 +167,19 @@ class PlayScene extends BaseScene {
           this.placePipe(...tempPipes);
           this.increaseScore();
           this.saveBestScore();
+          this.increaseDifficulty();
         }
       }
     })
+  }
+
+  increaseDifficulty() {
+    if (this.score === 1) {
+      this.currentDifficulty = 'normal';
+    }
+    if (this.score === 3) {
+      this.currentDifficulty = 'hard';
+    }
   }
 
   getRightMostPipe() {
