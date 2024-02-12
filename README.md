@@ -6,21 +6,20 @@
 3. Exploring a new programming language and the way of application development.
 
 ### Architecture
-![folder_structure](game-dev-with-phaser/assets/ps0project_folders_structure.png)
+![folder_structure](assets/ps0project_folders_structure.png)
 
 ### Screenshots
-![main_menu](game-dev-with-phaser/assets/ps1_main_menu.png)
-![play_game](game-dev-with-phaser/assets/ps2_play_game.png)
-![game_over](game-dev-with-phaser/assets/ps3_game_over.png)
-![pause](game-dev-with-phaser/assets/ps4_pause.png)
-![resume](game-dev-with-phaser/assets/ps5_resume.png)
-![best_score](game-dev-with-phaser/assets/ps6_best_score.png)
+![main_menu](assets/ps1_main_menu.png)
+![play_game](assets/ps2_play_game.png)
+![game_over](assets/ps3_game_over.png)
+![pause](assets/ps4_pause.png)
+![resume](assets/ps5_resume.png)
+![best_score](assets/ps6_best_score.png)
 
 ### Overview
 Flappy Bird is an arcade-style game in which the player controls the bird Faby, which moves persistently to the right. The player is tasked with navigating Faby through pairs of pipes that have equally sized gaps placed at random heights.
 
 source: [wikipedia](https://en.wikipedia.org/wiki/Flappy_Bird#:~:text=Flappy%20Bird%20is%20an%20arcade,gaps%20placed%20at%20random%20heights.)
-
 
 ### Requirements
 
