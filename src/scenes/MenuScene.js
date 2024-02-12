@@ -1,4 +1,3 @@
-
 import BaseScene from './BaseScene';
 
 class MenuScene extends BaseScene {
@@ -32,7 +31,7 @@ class MenuScene extends BaseScene {
     textGO.on('pointerup', () => {
       menuItem.scene && this.scene.start(menuItem.scene);
 
-      if(menuItem.text == 'Exit') {
+      if (menuItem.text == 'Exit') {
         this.game.destroy(true);
       }
     })

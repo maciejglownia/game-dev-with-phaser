@@ -1,4 +1,3 @@
-
 import Phaser from 'phaser';
 
 class BaseScene extends Phaser.Scene {
@@ -9,7 +8,7 @@ class BaseScene extends Phaser.Scene {
     this.screenCenter = [config.width / 2, config.height / 2];
     this.fontSize = 34;
     this.lineHeight = 42;
-    this.fontOptions = {fontSize: `${this.fontSize}px`, fill: '#fff'};
+    this.fontOptions = { fontSize: `${this.fontSize}px`, fill: '#fff' };
   }
 
   create() {
