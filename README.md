@@ -6,7 +6,7 @@
 3. Exploring a new programming language and the way of application development.
 
 ### Architecture
-![folder_structure](assets/ps0project_folders_structure.png)
+![folder_structure](assets/ps0_project_folders_structure.png)
 
 ### Screenshots
 ![main_menu](assets/ps1_main_menu.png)
